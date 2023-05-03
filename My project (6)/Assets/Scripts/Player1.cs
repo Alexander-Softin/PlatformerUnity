@@ -66,7 +66,7 @@ public class Player1 : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player2")
         {
             grounded = true;
             player = true;
