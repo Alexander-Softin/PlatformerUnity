@@ -13,9 +13,9 @@ public class ButtonGreen : MonoBehaviour
     public bool close = false;
     private void Update()
     {
-        if(close == true && wall.transform.position.y > -2.3f)
+        if(close == true && wall.transform.position.y < 0.02f)
         {
-            wall.transform.Translate(Vector2.down * Time.deltaTime);
+            wall.transform.Translate(Vector2.up * Time.deltaTime);
         }
     }
     private void Awake()
@@ -29,19 +29,20 @@ public class ButtonGreen : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player1" && transform.position.y > -4.2f)
+        if (collision.tag == "Player1" && transform.position.y > 1.8f)
         {
             transform.Translate(Vector2.down * Time.deltaTime);
         }
-        else if (collision.tag == "Player1" && wall.transform.position.y < 0f)
+        else if (collision.tag == "Player1" && wall.transform.position.y > -2f)
         {
-            wall.transform.Translate(Vector2.up * Time.deltaTime);
+            wall.transform.Translate(Vector2.down * Time.deltaTime);
         }
+        close = false;
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        transform.position = new Vector2(transform.position.x, -3.9f);
+        transform.position = new Vector2(transform.position.x, 2.18f);
         close = true;
     }
 }

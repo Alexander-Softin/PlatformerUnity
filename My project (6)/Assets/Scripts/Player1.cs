@@ -7,11 +7,11 @@ public class Player1 : MonoBehaviour
     //поля
     
     [SerializeField] private float speed;//открытый для редакции в unity
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask groundLayer;
+   
     private Rigidbody2D body;
     private Animator anim;
-    private bool grounded;
-    private bool player;
+   
     private BoxCollider2D boxCollider;
 
 
@@ -45,12 +45,12 @@ public class Player1 : MonoBehaviour
             transform.localScale = new Vector3(-6, 6, 6);
 
         //прыжок
-        if (Input.GetKey(KeyCode.UpArrow) && grounded && player && !isPlayerAbovePlayer())
+        if (Input.GetKey(KeyCode.UpArrow) && isGrounded())
             Jump();
 
         //параметры анимации
         anim.SetBool("run", horizontalInput != 0);
-        anim.SetBool("grounded", grounded);
+        anim.SetBool("grounded", isGrounded());
 
        // print(isPlayerAbovePlayer());
     }
@@ -59,24 +59,17 @@ public class Player1 : MonoBehaviour
     {
         body.velocity = new Vector2(body.velocity.x, speed);
         anim.SetTrigger("jump");
-        grounded = false;
-        player = false;
+       
+        
        
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Player2")
-        {
-            grounded = true;
-            player = true;
+   
 
-        }
-    }
-
-    private bool isPlayerAbovePlayer()
+    
+    private bool isGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.up, 0.1f, playerLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
         return raycastHit.collider != null;
     }
 
